@@ -46,25 +46,27 @@ app.get('/recent', function(req, res) {
   res.send(htmlpage)
 })
 
+app.get('/set', function(req, res) {
+client.set("a", "this message will self-destruct in 10 seconds");
+client.get("a", function(err,value){a=value});
+client.expire("a", 10);
+res.send("OK")
+})
+
+
 app.get('/get', function(req, res) {
   client.get("a", function(err,value){console.log(value);});
   client.get("a", function(err,value){a=value;});
   res.send(a)
 })
 
-app.get('/set', function(req, res) {
-client.set("a", "this message will self-destruct in 10 seconds");
-client.get("a", function(err,value){console.log(value);});
-client.expire("a", 10);
-res.send("OK!")
-})
 
 app.get('/', function(req, res) {
   res.send('hello world')
 })
 
 
- app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
+ /*app.post('/upload',[ multer({ dest: './uploads/'}), function(req, res){
     console.log(req.body) // form fields
     console.log(req.files) // form files
 
@@ -79,9 +81,9 @@ app.get('/', function(req, res) {
  	}
 
     res.status(204).end()
- }]);
+ }]);*/
 
- app.get('/meow', function(req, res) {
+ /*app.get('/meow', function(req, res) {
  	{
     client.lpop("imagelist",function(err,data)
     {
@@ -94,7 +96,7 @@ app.get('/', function(req, res) {
     	res.end();
     });
  	}
- })
+ })*/
 
 // HTTP SERVER
  var server = app.listen(3000, function () {
